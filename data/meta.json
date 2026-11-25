@@ -1,0 +1,240 @@
+{
+ "year": 2027,
+ "checked": "2026-11-25T04:56:07+00:00",
+ "updated": "2026-11-25T04:56:07+00:00",
+ "ok": true,
+ "errors": [],
+ "events": 266,
+ "counts": {
+  "AS": 153,
+  "SW": 40,
+  "7E": 19,
+  "7A": 0,
+  "8E": 12,
+  "8A": 0,
+  "9E": 13,
+  "9A": 0,
+  "10E": 31,
+  "10A": 0,
+  "11E": 22,
+  "11A": 1,
+  "12E": 24,
+  "12A": 3
+ },
+ "feeds": [
+  {
+   "file": "feeds/interruptions.ics",
+   "name": "Whole-school interruptions",
+   "desc": "No-class days, term dates, and whole-school Masses, assemblies and services.",
+   "count": 57
+  },
+  {
+   "file": "feeds/no-classes.ics",
+   "name": "No-class days and term dates",
+   "desc": "Public holidays, pupil free days, Learning Conference days, holidays, and term start and end.",
+   "count": 39
+  },
+  {
+   "file": "feeds/year-7.ics",
+   "name": "Year 7: everything",
+   "desc": "Year 7 events and assessments, plus no-class days and term dates.",
+   "count": 59
+  },
+  {
+   "file": "feeds/year-8.ics",
+   "name": "Year 8: everything",
+   "desc": "Year 8 events and assessments, plus no-class days and term dates.",
+   "count": 52
+  },
+  {
+   "file": "feeds/year-9.ics",
+   "name": "Year 9: everything",
+   "desc": "Year 9 events and assessments, plus no-class days and term dates.",
+   "count": 53
+  },
+  {
+   "file": "feeds/year-10.ics",
+   "name": "Year 10: everything",
+   "desc": "Year 10 events and assessments, plus no-class days and term dates.",
+   "count": 71
+  },
+  {
+   "file": "feeds/year-11.ics",
+   "name": "Year 11: everything",
+   "desc": "Year 11 events and assessments, plus no-class days and term dates.",
+   "count": 62
+  },
+  {
+   "file": "feeds/year-12.ics",
+   "name": "Year 12: everything",
+   "desc": "Year 12 events and assessments, plus no-class days and term dates.",
+   "count": 66
+  },
+  {
+   "file": "feeds/all-assessments.ics",
+   "name": "All assessments, Years 7–12",
+   "desc": "Every assessment from the six year-group assessment calendars.",
+   "count": 4
+  },
+  {
+   "file": "feeds/dept-arts.ics",
+   "name": "Arts: Dance, Drama, Media, Music, Visual Art",
+   "desc": "Arts events and assessments across all years, plus no-class days and term dates.",
+   "count": 67
+  },
+  {
+   "file": "feeds/dept-english.ics",
+   "name": "English: all years",
+   "desc": "English events and assessments across all years, plus no-class days and term dates.",
+   "count": 41
+  },
+  {
+   "file": "feeds/dept-maths.ics",
+   "name": "Maths: all years",
+   "desc": "Maths events and assessments across all years, plus no-class days and term dates.",
+   "count": 40
+  },
+  {
+   "file": "feeds/dept-science.ics",
+   "name": "Science: all years",
+   "desc": "Science events and assessments across all years, plus no-class days and term dates.",
+   "count": 49
+  },
+  {
+   "file": "feeds/dept-humanities.ics",
+   "name": "Humanities: all years",
+   "desc": "Humanities events and assessments across all years, plus no-class days and term dates.",
+   "count": 39
+  },
+  {
+   "file": "feeds/dept-re.ics",
+   "name": "RE: all years",
+   "desc": "RE events and assessments across all years, plus no-class days and term dates.",
+   "count": 43
+  },
+  {
+   "file": "feeds/dept-languages.ics",
+   "name": "Languages: all years",
+   "desc": "Languages events and assessments across all years, plus no-class days and term dates.",
+   "count": 40
+  },
+  {
+   "file": "feeds/dept-hpe.ics",
+   "name": "HPE: all years",
+   "desc": "HPE events and assessments across all years, plus no-class days and term dates.",
+   "count": 80
+  },
+  {
+   "file": "feeds/dept-technologies.ics",
+   "name": "Technologies: all years",
+   "desc": "Technologies events and assessments across all years, plus no-class days and term dates.",
+   "count": 45
+  },
+  {
+   "file": "feeds/week-labels.ics",
+   "name": "School week labels",
+   "desc": "“Week 3, Term 2” across the top of each school week (Monday to Friday).",
+   "count": 40
+  }
+ ],
+ "calendars": [
+  {
+   "code": "AS",
+   "name": "All School",
+   "kind": "events",
+   "yr": 0,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_qsjrpbbi7db58ppka9bfuv4sts%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "SW",
+   "name": "School Weeks",
+   "kind": "weeks",
+   "yr": 0,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_tv2uo13ksq02jdcc4afna53vek%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "7E",
+   "name": "Y07 Events",
+   "kind": "events",
+   "yr": 7,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_c8uu66vogahsi8dj762i1tshm4%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "7A",
+   "name": "Y07 Assessments",
+   "kind": "assess",
+   "yr": 7,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_80kn74fq9jvqhhrc37o055nv3c%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "8E",
+   "name": "Y08 Events",
+   "kind": "events",
+   "yr": 8,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_v7g5d38bsvuhth75lgk3eu8j58%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "8A",
+   "name": "Y08 Assessments",
+   "kind": "assess",
+   "yr": 8,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_v1pdik2lo29j8qi4tku4pu27vc%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "9E",
+   "name": "Y09 Events",
+   "kind": "events",
+   "yr": 9,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_7nbepunfrm2u1po90akt9ucfj4%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "9A",
+   "name": "Y09 Assessments",
+   "kind": "assess",
+   "yr": 9,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_o5gbsvs7nkrekmjrknvkafvrho%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "10E",
+   "name": "Y10 Events",
+   "kind": "events",
+   "yr": 10,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_mr1b75a413q6vjf82slok8mkb4%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "10A",
+   "name": "Y10 Assessments",
+   "kind": "assess",
+   "yr": 10,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_tbutno4c2222iuv6oi8mm31vr0%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "11E",
+   "name": "Y11 Events",
+   "kind": "events",
+   "yr": 11,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_bv859n02p8q4sk85uldcp06je0%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "11A",
+   "name": "Y11 Assessments",
+   "kind": "assess",
+   "yr": 11,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_5u67g3od5vv9nvvoc72q2rvpr0%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "12E",
+   "name": "Y12 Events",
+   "kind": "events",
+   "yr": 12,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_psbsgs4v9at8n89bv26qknlrms%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+   "code": "12A",
+   "name": "Y12 Assessments",
+   "kind": "assess",
+   "yr": 12,
+   "url": "https://calendar.google.com/calendar/ical/cewa.edu.au_s7hrcim0r18qt2bj3ud3h8277s%40group.calendar.google.com/public/basic.ics"
+  }
+ ]
+}

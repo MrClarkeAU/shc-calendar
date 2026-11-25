@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHC Staff Calendar 2027</title>
+<meta name="description" content="Add Sacred Heart College events and assessments to your Outlook calendar.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect x=%222%22 y=%224%22 width=%2228%22 height=%2226%22 rx=%225%22 fill=%22%23a10f18%22/%3E%3Crect x=%226%22 y=%2212%22 width=%2220%22 height=%2214%22 rx=%222%22 fill=%22%23fff%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a polished staff tool – calm, quick, trustworthy.
+   IDEA: the school planner: a ruled term grid you can fill by ticking boxes.
+   PICTURE: an animated three-step strip (calendars → choose → Outlook) and the live term grid itself.
+   COLOUR and TYPE: College red over white; each event type has its own colour, used identically in the key, grid and list. Schibsted Grotesk.
+   LAYOUT: red band, how-it-works strip, two tabs; filters | term grid; stacks below 860px. */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#131011);--card:light-dark(#ffffff,#1c1718);--paper:light-dark(#f6f2f1,#1f191a);--ink:light-dark(#1b1314,#f4eded);
+--mute:light-dark(#685c5d,#b7a8a9);--rule:light-dark(#e6dfde,#382e2f);--red:light-dark(#b1121c,#ec5a62);--redbg:#a10f18;
+--on:light-dark(#fbeaeb,#3a191c);--shadow:light-dark(0 10px 30px rgba(60,10,15,.10),0 10px 30px rgba(0,0,0,.45));
+--c-noclass:light-dark(#3b3536,#cfc6c7);--c-term:#7a7f8c;--c-assess:#c8102e;--c-exams:#e0661b;--c-faith:#7c4dcc;--c-arts:#d63384;
+--c-sport:#1f9254;--c-comps:#0f8a9c;--c-trips:#b8860b;--c-careers:#2f62d6;--c-pastoral:#3aa0d8;--c-community:#8a5a2b;--c-note:#9aa3b5;--c-admin:#a39b97;--c-week:#b9b0ae}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Schibsted Grotesk",system-ui,sans-serif;overflow-x:clip}
+a{color:var(--red)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}
+.hero{background:var(--redbg);color:#fff;padding:clamp(28px,4vw,52px) 0 clamp(70px,8vw,96px)}
+.hero h1{font-size:clamp(32px,5vw,52px);line-height:1.04;margin:0 0 10px;font-weight:800;text-wrap:balance;max-width:16ch}
+.hero p{margin:0;max-width:62ch;font-size:17px;opacity:.94}
+.pill{display:inline-flex;gap:8px;align-items:center;margin-top:16px;background:rgba(255,255,255,.14);border-radius:999px;padding:7px 14px;font-size:14px}
+.pill .dot{width:9px;height:9px;border-radius:50%;background:#7ee2a8;flex:none}
+.pill.stale .dot{background:#ffd166}
+.how{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr) 34px minmax(0,1fr);align-items:center;margin-top:calc(-1 * clamp(52px,6vw,72px))}
+.step{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px 18px 18px;animation:rise .75s cubic-bezier(.2,.8,.2,1) both}
+.step:nth-of-type(2){animation-delay:.12s}.step:nth-of-type(3){animation-delay:.24s}
+.step svg{display:block;width:100%;height:auto;max-height:150px}
+.step h3{margin:6px 0 2px;font-size:17px}.step p{margin:0;color:var(--mute);font-size:14.5px}
+.step .num{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;font-weight:800;margin-right:6px}
+.arrow{color:var(--red);display:grid;place-items:center}
+@keyframes rise{from{opacity:0;transform:perspective(700px) rotateX(16deg) translateY(18px)}}
+.sheet{transform-box:fill-box;transform-origin:50% 100%;animation:fan .8s cubic-bezier(.2,.8,.2,1) both}
+.s1{transform:translate(-26px,8px) rotate(-10deg);animation-delay:.45s}.s2{animation-delay:.55s}.s3{transform:translate(26px,8px) rotate(10deg);animation-delay:.65s}
+@keyframes fan{from{opacity:0;transform:none}}
+.ch rect{fill:var(--on);stroke:var(--red);stroke-width:1.5;animation:chipOn .35s ease both}
+.ch text{fill:var(--red);font-weight:700;animation:chipTx .35s ease both}
+.ch.c2 rect,.ch.c2 text{animation-delay:1.05s}.ch.c1 rect,.ch.c1 text{animation-delay:1.25s}.ch.c3 rect,.ch.c3 text{animation-delay:1.45s}
+.ch.off rect{fill:var(--card);stroke:var(--rule);animation:none}.ch.off text{fill:var(--mute);font-weight:500;animation:none}
+@keyframes chipOn{from{fill:var(--card);stroke:var(--rule)}}@keyframes chipTx{from{fill:var(--mute)}}
+.blk{animation:drop .5s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes drop{from{opacity:0;transform:translateY(-22px)}}
+@media(max-width:860px){.how{grid-template-columns:minmax(0,1fr);gap:12px;margin-top:calc(-1 * clamp(40px,8vw,60px))}.arrow{transform:rotate(90deg);height:14px}.step svg{max-height:84px}.step{padding:12px 16px 14px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.tabs{display:flex;gap:4px;margin:34px 0 0;border-bottom:2px solid var(--ink)}
+.tab{appearance:none;border:0;background:transparent;font:inherit;font-weight:700;font-size:17px;padding:12px 18px;color:var(--mute);cursor:pointer;border-radius:10px 10px 0 0;min-height:48px}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg)}
+.tab small{display:block;font-size:12.5px;font-weight:500;opacity:.8}
+section.view{padding:26px 0 40px}
+h2{font-size:clamp(22px,2.6vw,28px);line-height:1.15;margin:0 0 6px}
+.lead{color:var(--mute);margin:0 0 20px;max-width:72ch}
+h3.grp{font-size:14px;color:var(--mute);margin:26px 0 10px;font-weight:700}
+.feeds{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.feed{background:var(--card);border:1.5px solid var(--rule);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.feed h4{margin:0;font-size:16.5px;line-height:1.25}
+.feed p{margin:0;color:var(--mute);font-size:14px;flex:1}
+.feed .n{font-size:13px;color:var(--mute)}
+.feed.star{border-color:var(--red)}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.btn{appearance:none;font:inherit;font-weight:700;font-size:15px;border:0;border-radius:10px;padding:10px 15px;min-height:44px;cursor:pointer;background:var(--red);color:#fff;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--red);border:1.5px solid var(--red)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.tab:focus-visible,.chip:focus-visible,.cell:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.rows{display:grid;gap:8px}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border:1.5px solid var(--rule);border-radius:12px;background:var(--card)}
+.lrow strong{display:block}.lrow span{font-size:13px;color:var(--mute)}
+details.help{margin-top:22px;border-top:1px solid var(--rule);padding-top:12px}
+details.help summary{cursor:pointer;font-weight:700}
+ol.steps{padding-left:22px}ol.steps li{margin:5px 0}
+.small{font-size:13.5px;color:var(--mute)}
+.build{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:26px;align-items:start}
+@media(max-width:860px){.build{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--paper);border-radius:16px;padding:18px}
+.panel h4{margin:16px 0 8px;font-size:14px}.panel h4:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;font:inherit;font-size:13.5px;border:1.5px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 11px;min-height:36px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed=true]{border-color:var(--ink);font-weight:700}
+.chip[aria-pressed=false]{color:var(--mute)}
+.chip .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.chip[aria-pressed=false] .sw{opacity:.35}
+.chip .n{font-size:11.5px;color:var(--mute);font-weight:500}
+.chip.yr[aria-pressed=true]{background:var(--on);border-color:var(--red);color:var(--red)}
+.check{display:flex;gap:10px;align-items:center;margin:7px 0;font-size:14.5px}
+.check input{width:19px;height:19px;accent-color:var(--red);flex:none}
+input[type=search]{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1.5px solid var(--rule);border-radius:10px;background:var(--card);color:var(--ink)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+.count{font-size:22px;font-weight:800;line-height:1.1}.count small{display:block;font-size:13px;font-weight:500;color:var(--mute)}
+.seg{display:inline-flex;border:1.5px solid var(--rule);border-radius:10px;overflow:hidden}
+.seg button{appearance:none;border:0;background:var(--card);color:var(--mute);font:inherit;font-weight:700;font-size:14px;padding:8px 12px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.terms{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 10px}
+.tgrid{display:grid;grid-template-columns:4.2em repeat(5,minmax(0,1fr)) minmax(0,.62fr);border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.tgrid>div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.th{font-size:12.5px;font-weight:700;color:var(--mute);padding:6px 8px;background:var(--paper)}
+.wkc{padding:8px 6px;font-weight:800;font-size:14px;background:var(--paper);text-align:center}
+.wkc small{display:block;font-weight:500;font-size:11.5px;color:var(--mute)}
+.cell{appearance:none;border:0;background:var(--card);color:inherit;font:inherit;text-align:left;width:100%;height:100%;min-height:74px;padding:5px 6px;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.cell:hover{background:var(--paper)}.cell.sel{box-shadow:inset 0 0 0 2px var(--red)}
+.cell.out{background:repeating-linear-gradient(135deg,var(--paper) 0 6px,transparent 6px 12px);cursor:default}
+.cell .dn{font-size:11.5px;color:var(--mute);font-weight:700}
+.cell.nc{background:light-dark(#ece8e7,#2a2324)}
+.ech{display:flex;gap:5px;align-items:center;font-size:12px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ech i{width:8px;height:8px;border-radius:2px;flex:none}
+.ech span{overflow:hidden;text-overflow:ellipsis}
+.more{font-size:11.5px;color:var(--mute);font-weight:700}
+.detail{margin-top:14px;background:var(--paper);border-radius:14px;padding:14px 16px}
+.detail h4{margin:0 0 8px;font-size:15px}
+.ev{display:grid;grid-template-columns:9.2em minmax(0,1fr);gap:12px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.ev .d{font-weight:700;font-size:14px}
+.ev .t{font-size:15px;display:flex;gap:8px;align-items:baseline}
+.ev .t i{width:10px;height:10px;border-radius:3px;flex:none;transform:translateY(1px)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.tag{font-size:11.5px;padding:1px 7px;border-radius:6px;background:var(--paper);color:var(--mute)}
+.tag.y{background:var(--on);color:var(--red)}
+.wkh{margin:18px 0 0;padding:6px 0;font-size:13px;color:var(--mute);font-weight:700;border-bottom:1px solid var(--rule)}
+.empty{padding:40px 0;color:var(--mute);text-align:center}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9;max-width:90vw}
+.toast.show{opacity:1}
+.notice{background:light-dark(#fff4d6,#3a2f12);border-radius:12px;padding:12px 14px;margin:16px 0 0;font-size:14.5px}
+footer{border-top:1px solid var(--rule);color:var(--mute);font-size:14px;padding:22px 0 40px}
+footer p{max-width:80ch;margin:6px 0}
+[hidden]{display:none!important}
+@media(max-width:600px){.tab{flex:1 1 0;padding:10px 8px;font-size:15.5px}.ev{grid-template-columns:7.2em minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1>SHC staff calendar 2027</h1>
+    <p>Get the school's events and assessments into your Outlook calendar. Subscribe to a ready-made calendar, or build your own.</p>
+    <div class="pill" id="status"><span class="dot"></span><span id="status-text">Loading the latest calendar…</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="how" aria-label="How it works">
+    <div class="step">
+      <svg viewBox="0 0 240 130" aria-hidden="true">
+        <g class="sheet s1"><rect x="70" y="22" width="100" height="92" rx="10" fill="var(--card)" stroke="var(--rule)" stroke-width="2"/><rect x="70" y="22" width="100" height="22" rx="10" fill="var(--c-sport)"/><rect x="70" y="34" width="100" height="10" fill="var(--c-sport)"/></g>
+        <g class="sheet s3"><rect x="70" y="22" width="100" height="92" rx="10" fill="var(--card)" stroke="var(--rule)" stroke-width="2"/><rect x="70" y="22" width="100" height="22" rx="10" fill="var(--c-faith)"/><rect x="70" y="34" width="100" height="10" fill="var(--c-faith)"/></g>
+        <g class="sheet s2"><rect x="70" y="22" width="100" height="92" rx="10" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><rect x="70" y="22" width="100" height="22" rx="10" fill="var(--c-assess)"/><rect x="70" y="34" width="100" height="10" fill="var(--c-assess)"/>
+          <g fill="var(--rule)"><rect x="82" y="54" width="16" height="12" rx="3"/><rect x="104" y="54" width="16" height="12" rx="3"/><rect x="126" y="54" width="16" height="12" rx="3" fill="var(--c-assess)"/><rect x="148" y="54" width="12" height="12" rx="3"/>
+          <rect x="82" y="72" width="16" height="12" rx="3"/><rect x="104" y="72" width="16" height="12" rx="3" fill="var(--c-arts)"/><rect x="126" y="72" width="16" height="12" rx="3"/><rect x="148" y="72" width="12" height="12" rx="3"/>
+          <rect x="82" y="90" width="16" height="12" rx="3" fill="var(--c-noclass)"/><rect x="104" y="90" width="16" height="12" rx="3"/><rect x="126" y="90" width="16" height="12" rx="3"/><rect x="148" y="90" width="12" height="12" rx="3"/></g></g>
+      </svg>
+      <h3><span class="num">1</span>The school's calendars</h3>
+      <p>All School, School Weeks, and each year group's Events and Assessments calendars.</p>
+    </div>
+    <div class="arrow" aria-hidden="true"><svg width="26" height="18" viewBox="0 0 26 18"><path d="M1 9h21M15 2l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step">
+      <svg viewBox="0 0 240 130" aria-hidden="true" font-family="Schibsted Grotesk, sans-serif" font-size="12.5">
+        <g class="ch c1"><rect x="20" y="22" width="78" height="30" rx="15"/><text x="59" y="41" text-anchor="middle">Year 7</text></g>
+        <g class="ch off"><rect x="106" y="22" width="78" height="30" rx="15"/><text x="145" y="41" text-anchor="middle">Year 8</text></g>
+        <g class="ch c2"><rect x="20" y="62" width="112" height="30" rx="15"/><text x="76" y="81" text-anchor="middle">Assessments</text></g>
+        <g class="ch off"><rect x="140" y="62" width="80" height="30" rx="15"/><text x="180" y="81" text-anchor="middle">Sport</text></g>
+        <g class="ch c3"><rect x="20" y="100" width="66" height="26" rx="13"/><text x="53" y="117" text-anchor="middle">Arts</text></g>
+        <g class="ch off"><rect x="94" y="100" width="92" height="26" rx="13"/><text x="140" y="117" text-anchor="middle">Careers</text></g>
+      </svg>
+      <h3><span class="num">2</span>Choose what you need</h3>
+      <p>Pick a ready-made calendar, or filter by year group, event type and department.</p>
+    </div>
+    <div class="arrow" aria-hidden="true"><svg width="26" height="18" viewBox="0 0 26 18"><path d="M1 9h21M15 2l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step">
+      <svg viewBox="0 0 240 130" aria-hidden="true" font-family="Schibsted Grotesk, sans-serif">
+        <rect x="20" y="10" width="200" height="112" rx="12" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="20" y="10" width="200" height="24" rx="12" fill="#0f6cbd"/><rect x="20" y="22" width="200" height="12" fill="#0f6cbd"/>
+        <text x="34" y="27" font-size="11.5" font-weight="700" fill="#fff">Outlook</text>
+        <g stroke="var(--rule)" stroke-width="1.5"><path d="M60 34v88M100 34v88M140 34v88M180 34v88M20 63h200M20 92h200"/></g>
+        <rect class="blk" style="animation-delay:1.9s" x="24" y="38" width="32" height="10" rx="3" fill="var(--c-noclass)"/>
+        <rect class="blk" style="animation-delay:2.05s" x="104" y="40" width="32" height="10" rx="3" fill="var(--c-assess)"/>
+        <rect class="blk" style="animation-delay:2.2s" x="64" y="68" width="72" height="10" rx="3" fill="var(--c-trips)"/>
+        <rect class="blk" style="animation-delay:2.35s" x="144" y="70" width="32" height="10" rx="3" fill="var(--c-arts)"/>
+        <rect class="blk" style="animation-delay:2.5s" x="184" y="97" width="32" height="10" rx="3" fill="var(--c-assess)"/>
+        <rect class="blk" style="animation-delay:2.65s" x="24" y="99" width="32" height="10" rx="3" fill="var(--c-faith)"/>
+      </svg>
+      <h3><span class="num">3</span>Into your Outlook</h3>
+      <p>Subscribe and it keeps itself up to date, or download a file to import.</p>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-sub" aria-selected="true" aria-controls="v-sub">Subscribe<small>Updates itself</small></button>
+    <button class="tab" role="tab" id="t-build" aria-selected="false" aria-controls="v-build">Build your own<small>Pick exactly what you want</small></button>
+  </div>
+
+  <section class="view" id="v-sub" role="tabpanel" aria-labelledby="t-sub">
+    <h2>Ready-made calendars</h2>
+    <p class="lead">Subscribe once and the calendar sits beside your own in Outlook. These are rebuilt from the school calendars every Sunday, and Outlook picks up the changes on its own.</p>
+    <div id="feeds"></div>
+    <h3 class="grp">The school's own calendars (live from Google)</h3>
+    <p class="small" style="margin-top:-4px">These show every change as soon as it's made, including earlier years' events.</p>
+    <div class="rows" id="cals"></div>
+    <details class="help" open>
+      <summary>How to subscribe in Outlook (CEWA Microsoft 365)</summary>
+      <ol class="steps">
+        <li><strong>Quickest:</strong> press <em>Open in Outlook</em>, sign in if asked, check the name, then choose <em>Import</em>.</li>
+        <li><strong>By hand:</strong> press <em>Copy link</em>, open <a href="https://outlook.office.com/calendar" target="_blank" rel="noopener">outlook.office.com/calendar</a>, choose <em>Add calendar</em> → <em>Subscribe from web</em>, paste the link, name it and choose <em>Import</em>.</li>
+        <li><strong>Classic Outlook on Windows:</strong> Calendar → <em>Add calendar</em> → <em>From Internet</em> → paste the link → <em>Yes</em>.</li>
+        <li>A calendar added in Outlook on the web also appears in Outlook on your laptop and phone. Tick it on or off like any other.</li>
+      </ol>
+      <p class="small">Outlook checks subscribed calendars every few hours, so allow up to a day for changes to appear. Subscribed events can't be edited, as they belong to the school. Events are marked Free, so they won't block meeting bookings.</p>
+    </details>
+  </section>
+
+  <section class="view" id="v-build" role="tabpanel" aria-labelledby="t-build" hidden>
+    <h2>Build your own</h2>
+    <p class="lead">Tick what you need and watch it fill the term grid. When it looks right, download the file and import it into Outlook. Downloads don't update themselves, so download again after the calendar changes.</p>
+    <div class="build">
+      <div class="panel" id="filters">
+        <h4>Year groups</h4>
+        <div class="chips" id="f-years"></div>
+        <label class="check"><input type="checkbox" id="f-whole">Whole-school events</label>
+        <h4>Include</h4>
+        <label class="check"><input type="checkbox" id="f-ev">School events</label>
+        <label class="check"><input type="checkbox" id="f-as">Assessments</label>
+        <label class="check"><input type="checkbox" id="f-wk">Week labels (“Week 3, Term 2”)</label>
+        <h4>Event types <span class="small" style="font-weight:500">– also the colour key</span></h4>
+        <div class="chips" id="f-types"></div>
+        <h4>Departments</h4>
+        <div class="chips" id="f-depts"></div>
+        <label class="check"><input type="checkbox" id="f-keep">Always keep no-class days and term dates</label>
+        <h4>Search</h4>
+        <input type="search" id="f-q" placeholder="e.g. camp, Drama, NAPLAN" aria-label="Search events">
+        <p style="margin:14px 0 0"><button class="btn ghost" id="f-reset" type="button">Reset</button></p>
+      </div>
+      <div>
+        <div class="bar">
+          <span class="count" id="count"></span>
+          <span class="acts">
+            <span class="seg" role="group" aria-label="View"><button type="button" id="vw-grid" aria-pressed="true">Term grid</button><button type="button" id="vw-list" aria-pressed="false">List</button></span>
+            <button class="btn ghost" id="copy-list">Copy list</button>
+            <button class="btn" id="download">Download for Outlook</button>
+          </span>
+        </div>
+        <div id="grid-view">
+          <div class="terms chips" id="term-tabs"></div>
+          <div class="tgrid" id="tgrid"></div>
+          <div class="detail" id="detail" hidden></div>
+        </div>
+        <div id="list-view" hidden></div>
+        <details class="help">
+          <summary>How to import the file into Outlook</summary>
+          <ol class="steps">
+            <li>In Outlook on the web, choose <em>Add calendar</em> → <em>Create blank calendar</em> and name it “SHC 2027”. Keeping school events in their own calendar makes them easy to hide or replace.</li>
+            <li>Choose <em>Add calendar</em> → <em>Upload from file</em>, pick the downloaded <strong>.ics</strong> file and select your “SHC 2027” calendar.</li>
+            <li><strong>To update:</strong> delete the “SHC 2027” calendar, create it again and upload a fresh download. Outlook doesn't reliably replace events, so starting fresh avoids duplicates.</li>
+          </ol>
+        </details>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><strong>About this page.</strong> Built by Mr Clarke for Sacred Heart College staff; not an official College website. Events come from the College's public Google calendars. Every Sunday evening the page checks them, rebuilds the ready-made calendars and refreshes this data.</p>
+    <p>Event types and departments are worked out from event titles, so a few may land in “Admin &amp; other”. Year groups always come from the calendar an event belongs to. Assessment calendars fill up as staff add assessments.</p>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+{
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2800); };
+async function copy(text, msg) {
+  try { await navigator.clipboard.writeText(text); toast(msg); }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(msg); } catch (e2) { toast('Copy was blocked – select and copy the link by hand'); } ta.remove(); }
+}
+const PERTH = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Perth', weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const D = s => new Date(Date.UTC(+s.slice(0, 4), +s.slice(5, 7) - 1, +s.slice(8, 10), s.length > 10 ? +s.slice(11, 13) : 0, s.length > 10 ? +s.slice(14, 16) : 0));
+const iso = d => d.toISOString().slice(0, 10);
+const add = (d, n) => new Date(d.getTime() + n * 864e5);
+const fd = d => `${WD[d.getUTCDay()]} ${d.getUTCDate()} ${MO[d.getUTCMonth()]}`;
+const ft = d => { let h = d.getUTCHours(), m = d.getUTCMinutes(); const ap = h >= 12 ? 'pm' : 'am'; h = h % 12 || 12; return `${h}${m ? ':' + String(m).padStart(2, '0') : ''}${ap}`; };
+const ORDER = ['noclass', 'term', 'assess', 'exams', 'faith', 'trips', 'sport', 'arts', 'comps', 'careers', 'pastoral', 'community', 'note', 'admin'];
+
+let META, DATA, TL = {}, EVENTS = [], WEEKS = [], TERMS = {};
+const DEF = { mode: 'sub', years: [], whole: true, ev: true, as: true, wk: false, types: ORDER.slice(), depts: [], keep: true, q: '', view: 'grid', term: 1, day: null };
+let st = JSON.parse(JSON.stringify(DEF));
+try { const s = JSON.parse(localStorage.getItem('shcCal') || 'null'); if (s) st = Object.assign(st, s, { day: null }); } catch (e) {}
+const save = () => { try { localStorage.setItem('shcCal', JSON.stringify(Object.assign({}, st, { day: null }))); } catch (e) {} };
+
+// ---------- tabs ----------
+function setMode(m) { st.mode = m; save(); $('t-sub').setAttribute('aria-selected', m === 'sub'); $('t-build').setAttribute('aria-selected', m === 'build'); $('v-sub').hidden = m !== 'sub'; $('v-build').hidden = m !== 'build'; }
+$('t-sub').addEventListener('click', () => setMode('sub'));
+$('t-build').addEventListener('click', () => setMode('build'));
+
+// ---------- status ----------
+function renderStatus() {
+  const pill = $('status'), txt = $('status-text');
+  const checked = new Date(META.checked), updated = new Date(META.updated || META.checked);
+  const days = (Date.now() - updated) / 864e5;
+  if (!META.ok) { pill.classList.add('stale'); txt.textContent = `Last check failed (${PERTH.format(checked)}). Showing data from ${PERTH.format(updated)}.`; }
+  else if (days > 9) { pill.classList.add('stale'); txt.textContent = `Calendar data is ${Math.floor(days)} days old (last updated ${PERTH.format(updated)}). The school's own calendars below are still live.`; }
+  else txt.textContent = `Up to date: checked ${PERTH.format(checked)} · updates every Sunday`;
+}
+
+// ---------- subscribe ----------
+const outlook = (url, name) => `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`;
+const abs = f => new URL(f, location.href).href;
+function renderSub() {
+  const groups = [['Start here', f => /interruptions|no-classes/.test(f.file)], ['By year group', f => /year-/.test(f.file)],
+    ['By department', f => /dept-|all-assess/.test(f.file)], ['Extras', f => /week-labels/.test(f.file)]];
+  $('feeds').innerHTML = groups.map(([g, test]) => {
+    const fs = META.feeds.filter(test); if (!fs.length) return '';
+    return `<h3 class="grp">${esc(g)}</h3><div class="feeds">${fs.map(f => {
+      const url = abs(f.file), name = 'SHC ' + f.name;
+      return `<div class="feed${/interruptions/.test(f.file) ? ' star' : ''}"><h4>${esc(f.name)}</h4><p>${esc(f.desc)}</p><span class="n">${f.count} events in ${META.year}</span>
+      <div class="acts"><a class="btn" href="${esc(outlook(url, name))}" target="_blank" rel="noopener">Open in Outlook</a><button class="btn ghost" data-copy="${esc(url)}">Copy link</button></div></div>`;
+    }).join('')}</div>`;
+  }).join('');
+  $('cals').innerHTML = META.calendars.map(c => `<div class="lrow"><div><strong>${esc(c.name)}</strong><span>${META.counts[c.code] || 0} events in ${META.year}${c.kind === 'assess' ? ' so far' : ''}</span></div>
+    <div class="acts"><a class="btn ghost" href="${esc(outlook(c.url, 'SHC ' + c.name))}" target="_blank" rel="noopener">Open in Outlook</a><button class="btn ghost" data-copy="${esc(c.url)}">Copy link</button></div></div>`).join('');
+}
+document.addEventListener('click', ev => { const b = ev.target.closest('[data-copy]'); if (b) copy(b.dataset.copy, 'Link copied – paste it into Outlook'); });
+
+// ---------- filtering ----------
+const isKeep = e => st.keep && (e.type === 'noclass' || e.type === 'term') && e.c.includes('AS');
+function baseSet() {
+  const q = st.q.trim().toLowerCase();
+  return [...EVENTS, ...(st.wk ? WEEKS : [])].filter(e => {
+    if (q && !(e.t + ' ' + e.x).toLowerCase().includes(q)) return false;
+    if (e.type === 'week') return true;
+    if (isKeep(e)) return true;
+    if (e.type === 'assess' ? !st.as : !st.ev) return false;
+    return (e.w && st.whole) || e.y.some(y => st.years.includes(y));
+  });
+}
+const selected = () => baseSet().filter(e => e.type === 'week' || isKeep(e) || (st.types.includes(e.type) && (!st.depts.length || e.d.some(d => st.depts.includes(d)))));
+function when(e) {
+  if (!e.allday) return `${fd(e.S)} ${ft(e.S)}`;
+  const last = add(e.E, -1);
+  if (iso(last) <= iso(e.S)) return fd(e.S);
+  return e.S.getUTCMonth() === last.getUTCMonth() ? `${WD[e.S.getUTCDay()]} ${e.S.getUTCDate()} – ${fd(last)}` : `${fd(e.S)} – ${fd(last)}`;
+}
+const covers = (e, d) => { const s = iso(e.S), en = e.allday ? iso(add(e.E, -1)) : iso(e.E); return d >= s && d <= en; };
+const col = t => `var(--c-${t || 'admin'})`;
+const tagsOf = e => e.type === 'week' ? '<span class="tag">Week label</span>' :
+  (e.w ? '<span class="tag">Whole school</span>' : e.y.map(y => `<span class="tag y">Y${y}</span>`).join('')) + `<span class="tag">${esc(TL[e.type] || 'Other')}</span>` + e.d.map(d => `<span class="tag">${esc(d)}</span>`).join('');
+const evRow = e => `<div class="ev"><span class="d">${esc(when(e))}</span><span><span class="t"><i style="background:${col(e.type)}"></i>${esc(e.t)}</span><span class="tags">${tagsOf(e)}</span></span></div>`;
+
+// ---------- build view ----------
+const chip = (k, inner, on, cls = '') => `<button type="button" class="chip ${cls}" data-k="${esc(k)}" aria-pressed="${on}">${inner}</button>`;
+function renderFilters(base) {
+  const tc = {}, dc = {};
+  base.forEach(e => { tc[e.type] = (tc[e.type] || 0) + 1; e.d.forEach(d => dc[d] = (dc[d] || 0) + 1); });
+  $('f-years').innerHTML = [7, 8, 9, 10, 11, 12].map(y => chip('y' + y, 'Year ' + y, st.years.includes(y), 'yr')).join('');
+  $('f-types').innerHTML = ORDER.map(k => chip('t' + k, `<span class="sw" style="background:${col(k)}"></span>${esc(TL[k])} <span class="n">${tc[k] || 0}</span>`, st.types.includes(k))).join('');
+  $('f-depts').innerHTML = chip('dall', 'All departments', !st.depts.length) + DATA.depts.map(d => chip('d' + d, `${esc(d)} <span class="n">${dc[d] || 0}</span>`, st.depts.includes(d))).join('');
+  ['whole', 'ev', 'as', 'wk', 'keep'].forEach(k => $('f-' + k).checked = st[k]);
+  if ($('f-q').value !== st.q) $('f-q').value = st.q;
+}
+function renderGrid(sel) {
+  const T = TERMS[st.term]; if (!T) { $('tgrid').innerHTML = ''; return; }
+  const byDay = {};
+  const inTerm = sel.filter(e => e.type !== 'week' && iso(e.S) <= T.end && (e.allday ? iso(add(e.E, -1)) : iso(e.E)) >= T.start);
+  const days = [];
+  T.weeks.forEach(w => { for (let i = 0; i < 7; i++) days.push(iso(add(D(w.s), i))); });
+  days.forEach(d => byDay[d] = []);
+  inTerm.forEach(e => days.forEach(d => { if (covers(e, d)) byDay[d].push(e); }));
+  const rank = e => ORDER.indexOf(e.type);
+  let h = '<div class="th"></div>' + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Weekend'].map(x => `<div class="th">${x}</div>`).join('');
+  T.weeks.forEach(w => {
+    const mon = D(w.s);
+    h += `<div class="wkc">W${w.week}<small>${mon.getUTCDate()} ${MO[mon.getUTCMonth()]}</small></div>`;
+    for (let i = 0; i < 6; i++) {
+      const ds = i < 5 ? [iso(add(mon, i))] : [iso(add(mon, 5)), iso(add(mon, 6))];
+      const evs = [...new Map(ds.flatMap(d => byDay[d] || []).map(e => [e.id, e])).values()].sort((a, b) => rank(a) - rank(b));
+      const nc = evs.some(e => e.type === 'noclass');
+      const label = i < 5 ? add(mon, i).getUTCDate() : `${add(mon, 5).getUTCDate()}–${add(mon, 6).getUTCDate()}`;
+      const chips = evs.slice(0, 3).map(e => `<span class="ech" title="${esc(e.t)}"><i style="background:${col(e.type)}"></i><span>${esc(e.t)}</span></span>`).join('');
+      h += `<div><button type="button" class="cell${nc ? ' nc' : ''}${st.day === ds[0] ? ' sel' : ''}" data-day="${ds[0]}" data-span="${ds.length}" aria-label="${esc(fd(add(mon, i)))}: ${evs.length} events"><span class="dn">${label}</span>${chips}${evs.length > 3 ? `<span class="more">+${evs.length - 3} more</span>` : ''}</button></div>`;
+    }
+  });
+  $('tgrid').innerHTML = h;
+  renderDetail(sel, byDay);
+}
+function renderDetail(sel, byDay) {
+  const box = $('detail');
+  if (!st.day || !byDay[st.day]) { box.hidden = true; return; }
+  const span = +($('tgrid').querySelector(`[data-day="${st.day}"]`)?.dataset.span || 1);
+  const ds = span > 1 ? [st.day, iso(add(D(st.day), 1))] : [st.day];
+  const evs = [...new Map(ds.flatMap(d => byDay[d] || []).map(e => [e.id, e])).values()].sort((a, b) => ORDER.indexOf(a.type) - ORDER.indexOf(b.type));
+  const wk = WEEKS.find(w => st.day >= w.s && st.day < iso(add(D(w.s), 7)));
+  box.hidden = false;
+  box.innerHTML = `<h4>${esc(span > 1 ? 'Weekend of ' + fd(D(st.day)) : fd(D(st.day)))}${wk ? ' · ' + esc(wk.t) : ''}</h4>` + (evs.length ? evs.map(evRow).join('') : '<p class="small">Nothing on this day for your selection.</p>');
+}
+function renderList(sel) {
+  let h = '', grp = '';
+  sel.forEach(e => {
+    const w = WEEKS.find(x => iso(e.S) >= x.s && iso(e.S) < iso(add(D(x.s), 7)) || (iso(e.S) === iso(add(D(x.s), -1))));
+    const g = w ? w.t : 'Holidays';
+    if (g !== grp) { h += `<h4 class="wkh">${esc(g)}${w ? ' · w/c ' + esc(fd(D(w.s))) : ''}</h4>`; grp = g; }
+    h += evRow(e);
+  });
+  $('list-view').innerHTML = sel.length ? h : '<p class="empty">Nothing matches yet. Tick a year group, or widen the filters.</p>';
+}
+function renderBuild() {
+  const base = baseSet(); renderFilters(base);
+  const sel = selected().sort((a, b) => a.S - b.S || (a.type === 'week' ? -1 : b.type === 'week' ? 1 : a.t.localeCompare(b.t)));
+  const n = sel.filter(e => e.type !== 'week').length;
+  $('count').innerHTML = `${n} event${n === 1 ? '' : 's'}<small>${st.wk ? `plus ${sel.length - n} week labels · ` : ''}${META.year} school year</small>`;
+  $('download').disabled = !sel.length; $('copy-list').disabled = !sel.length;
+  const narrow = matchMedia('(max-width:700px)').matches;
+  const view = narrow ? 'list' : st.view;
+  $('vw-grid').setAttribute('aria-pressed', view === 'grid'); $('vw-list').setAttribute('aria-pressed', view === 'list'); $('vw-grid').disabled = narrow;
+  $('grid-view').hidden = view !== 'grid'; $('list-view').hidden = view !== 'list';
+  $('term-tabs').innerHTML = Object.keys(TERMS).map(t => {
+    const T = TERMS[t]; const c = sel.filter(e => e.type !== 'week' && iso(e.S) >= T.start && iso(e.S) <= T.end).length;
+    return chip('p' + t, `Term ${t} <span class="n">${c}</span>`, st.term === +t, 'yr');
+  }).join('');
+  if (view === 'grid') renderGrid(sel); else renderList(sel);
+}
+$('filters').addEventListener('click', ev => {
+  const b = ev.target.closest('.chip'); if (!b) return;
+  const k = b.dataset.k, v = k.slice(1), tog = (a, x) => a.includes(x) ? a.filter(i => i !== x) : [...a, x];
+  if (k[0] === 'y') st.years = tog(st.years, +v);
+  if (k[0] === 't') st.types = tog(st.types, v);
+  if (k[0] === 'd') st.depts = v === 'all' ? [] : tog(st.depts, v);
+  save(); renderBuild();
+});
+$('term-tabs').addEventListener('click', ev => { const b = ev.target.closest('.chip'); if (!b) return; st.term = +b.dataset.k.slice(1); st.day = null; save(); renderBuild(); });
+$('tgrid').addEventListener('click', ev => { const b = ev.target.closest('.cell'); if (!b) return; st.day = st.day === b.dataset.day ? null : b.dataset.day; renderBuild(); });
+['whole', 'ev', 'as', 'wk', 'keep'].forEach(k => $('f-' + k).addEventListener('change', ev => { st[k] = ev.target.checked; save(); renderBuild(); }));
+$('f-q').addEventListener('input', ev => { st.q = ev.target.value; save(); renderBuild(); });
+$('f-reset').addEventListener('click', () => { st = Object.assign(JSON.parse(JSON.stringify(DEF)), { mode: st.mode, view: st.view, term: st.term }); save(); renderBuild(); });
+$('vw-grid').addEventListener('click', () => { st.view = 'grid'; save(); renderBuild(); });
+$('vw-list').addEventListener('click', () => { st.view = 'list'; save(); renderBuild(); });
+matchMedia('(max-width:700px)').addEventListener('change', () => DATA && renderBuild());
+
+// ---------- download ----------
+const ie = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+const fold = l => { const o = []; while (l.length > 74) { o.push(l.slice(0, 74)); l = ' ' + l.slice(74); } o.push(l); return o.join('\r\n'); };
+const dz = d => new Date(d.getTime() - 8 * 36e5).toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+function buildICS(list) {
+  const now = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+  const names = Object.fromEntries(META.calendars.map(c => [c.code, c.name]));
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Mr Clarke//SHC staff calendar//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', `X-WR-CALNAME:SHC ${META.year}`, 'X-WR-TIMEZONE:Australia/Perth'];
+  list.forEach(e => {
+    const desc = [...(e.x ? [e.x, ''] : []), `Calendar: ${e.c.map(c => names[c] || c).join(', ')}`, `Type: ${e.type === 'week' ? 'Week label' : TL[e.type]}`, ...(e.d.length ? [`Department: ${e.d.join(', ')}`] : [])].join('\n');
+    L.push('BEGIN:VEVENT', `UID:${e.id}@shc-calendar`, `DTSTAMP:${now}`);
+    if (e.allday) L.push(`DTSTART;VALUE=DATE:${e.s.replace(/-/g, '')}`, `DTEND;VALUE=DATE:${e.e.replace(/-/g, '')}`);
+    else L.push(`DTSTART:${dz(e.S)}`, `DTEND:${dz(e.E)}`);
+    L.push(`SUMMARY:${ie('SHC: ' + e.t)}`, `DESCRIPTION:${ie(desc)}`, `CATEGORIES:SHC,${ie(e.type === 'week' ? 'Week labels' : TL[e.type])}`, 'TRANSP:TRANSPARENT', 'X-MICROSOFT-CDO-BUSYSTATUS:FREE', 'END:VEVENT');
+  });
+  L.push('END:VCALENDAR');
+  return L.map(fold).join('\r\n') + '\r\n';
+}
+$('download').addEventListener('click', () => {
+  try {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([buildICS(selected())], { type: 'text/calendar' })); a.download = `SHC-${META.year}-calendar.ics`;
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); toast('Calendar file downloaded');
+  } catch (e) { toast('This browser blocked the download'); }
+});
+$('copy-list').addEventListener('click', () => copy(selected().sort((a, b) => a.S - b.S).map(e => `${when(e)}  ${e.t}${e.w || e.type === 'week' ? '' : ' (Y' + e.y.join(', Y') + ')'}`).join('\n'), 'List copied'));
+
+// ---------- load ----------
+(async () => {
+  try {
+    const [m, d] = await Promise.all(['data/meta.json', 'data/events.json'].map(u => fetch(u, { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(u); return r.json(); })));
+    META = m; DATA = d; TL = Object.fromEntries(d.types);
+    EVENTS = d.events.map(e => Object.assign(e, { S: D(e.s), E: D(e.e) }));
+    WEEKS = d.weeks.map(w => Object.assign(w, { S: D(w.s), E: D(w.e) }));
+    WEEKS.forEach(w => { const T = TERMS[w.term] = TERMS[w.term] || { weeks: [] }; T.weeks.push(w); });
+    Object.values(TERMS).forEach(T => { T.weeks.sort((a, b) => a.s.localeCompare(b.s)); T.start = T.weeks[0].s; T.end = iso(add(D(T.weeks[T.weeks.length - 1].s), 6)); });
+    if (!TERMS[st.term]) st.term = +Object.keys(TERMS)[0];
+    renderStatus(); renderSub(); renderBuild();
+  } catch (e) {
+    $('status').classList.add('stale'); $('status-text').textContent = 'The calendar data could not be loaded. Try refreshing the page.';
+    $('feeds').innerHTML = '<p class="notice">The calendar data didn\'t load. Check your connection and refresh. If you opened this file from your computer, open the website address instead.</p>';
+  }
+  setMode(st.mode);
+})();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+name: Weekly calendar update
+
+on:
+  schedule:
+    - cron: "0 10 * * 0"   # Sundays 10:00 UTC = 6pm Perth
+  workflow_dispatch:        # "Run workflow" button for an update on demand
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendar-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch the school calendars and rebuild
+        run: python3 scripts/build.py
+      - name: Commit the new data
+        run: |
+          git config user.name "calendar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data feeds
+          # meta.json always changes (it records the check time), so there is
+          # a commit every week. That keeps GitHub from pausing the schedule.
+          git commit -m "Weekly calendar update $(date -u +%Y-%m-%d)" || echo "Nothing to commit"
+          git push
